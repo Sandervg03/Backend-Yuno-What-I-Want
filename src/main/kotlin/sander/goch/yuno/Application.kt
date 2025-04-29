@@ -1,11 +1,11 @@
-package yuno.yuno.example
+package sander.goch.yuno
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ExampleApplication
+class Application
 
 fun main(args: Array<String>) {
-	runApplication<ExampleApplication>(*args)
+	runApplication<Application>(*args)
 }
