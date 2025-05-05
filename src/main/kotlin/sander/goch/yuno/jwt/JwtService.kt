@@ -1,5 +1,6 @@
 package sander.goch.yuno.jwt
 
+import Config
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import java.util.*
@@ -10,12 +11,7 @@ object JwtService {
      * @return the secret key from the hmac-512.key file
      */
     private fun loadSecretKey(): ByteArray {
-        val stream = JwtService::class.java
-            .classLoader
-            .getResourceAsStream("hmac-512.key")
-            ?: throw IllegalStateException("hmac-512.key not found on classpath")
-        val keyBase64 = stream.readAllBytes().toString(Charsets.UTF_8).trim()
-        return Base64.getDecoder().decode(keyBase64)
+        return Config.jwtSecret.toByteArray()
     }
 
     private val algorithm = Algorithm.HMAC512(loadSecretKey())
@@ -42,7 +38,6 @@ object JwtService {
         return JWT.create()
             .withIssuer("Sander.Goch.Yuno")
             .withClaim("id", id)
-            .withIssuedAt(Date())
             .withExpiresAt(Date(System.currentTimeMillis() + 3600000))
             .sign(algorithm)
     }

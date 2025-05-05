@@ -39,5 +39,4 @@ out/
 ### Kotlin ###
 .kotlin
 
-### Private Keys ###
-.key
+config.kt

@@ -16,11 +16,10 @@ class AuthService(private val db: AuthRepository) {
         if (user !is AuthCredentials) {
             throw Unauthorized("Incorrect credentials")
         }
-        if (BCrypt.checkpw(authCredentials.password, user.password)) {
-            return JwtService.generateToken(user.id!!.toString())
-        } else {
+        if (!BCrypt.checkpw(authCredentials.password, user.password)) {
             throw Unauthorized("Incorrect credentials")
         }
+        return JwtService.generateToken(user.id!!)
     }
 
     fun register(credentials: AuthCredentials) {
