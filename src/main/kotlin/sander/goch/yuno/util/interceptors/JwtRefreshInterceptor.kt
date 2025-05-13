@@ -3,6 +3,7 @@ package sander.goch.yuno.util.interceptors
 import com.auth0.jwt.exceptions.JWTVerificationException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 import sander.goch.yuno.jwt.JwtService
@@ -14,16 +15,20 @@ class JwtRefreshInterceptor(private val jwtService: JwtService) : HandlerInterce
         if (request.requestURI.startsWith("/auth/login")) {
             return true
         }
-        val jwtToken = request.getHeader("Authorization") ?: return false
+        val jwtToken = request.getHeader("Authorization")
+        if (jwtToken.isNullOrBlank()) {
+            response.status = HttpStatus.UNAUTHORIZED.value()
+            return false
+        }
         try {
             val userId = jwtService.validateJWTToken(jwtToken)
             response.setHeader("Authorization", jwtService.generateToken(userId))
             return true
         } catch (error: JWTVerificationException) {
-            response.status = HttpServletResponse.SC_UNAUTHORIZED
+            response.status = HttpStatus.UNAUTHORIZED.value()
             return false
         } catch (error: Exception) {
-            response.status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+            response.status = HttpStatus.OK.value()
             return false
         }
     }

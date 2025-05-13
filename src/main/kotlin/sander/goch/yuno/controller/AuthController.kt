@@ -47,16 +47,9 @@ class AuthController(private val service: AuthService) {
 
     @GetMapping("/isLoggedIn")
     fun isLoggedIn(@RequestHeader("Authorization") token: String): ResponseEntity<Boolean> {
-        try {
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(true)
-        } catch (error: Exception) {
-            println(error)
-            return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(false)
-        }
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(true)
     }
 
 }
