@@ -12,7 +12,7 @@ import sander.goch.yuno.jwt.JwtService
 class JwtRefreshInterceptor(private val jwtService: JwtService) : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        if (request.requestURI.startsWith("/auth/login")) {
+        if (request.requestURI.startsWith("/auth/login") || request.requestURI.startsWith("/auth/register")) {
             return true
         }
         val jwtToken = request.getHeader("Authorization")
