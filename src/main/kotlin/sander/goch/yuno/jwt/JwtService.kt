@@ -1,9 +1,9 @@
 package sander.goch.yuno.jwt
 
-import Config
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import org.springframework.stereotype.Service
+import sander.goch.yuno.util.Config
 import java.util.*
 
 @Service
