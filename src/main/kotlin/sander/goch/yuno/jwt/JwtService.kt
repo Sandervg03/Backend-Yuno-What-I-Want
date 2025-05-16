@@ -44,4 +44,13 @@ object JwtService {
             .sign(algorithm)
     }
 
+    /**
+     * @param token given by the user
+     * @return a newly generated JWT token
+     */
+    fun refreshToken(token: String): String {
+        val userId = this.validateJWTToken(token)
+        return generateToken(userId)
+    }
+
 }

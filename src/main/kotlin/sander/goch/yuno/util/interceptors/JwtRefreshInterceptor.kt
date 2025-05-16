@@ -21,8 +21,7 @@ class JwtRefreshInterceptor(private val jwtService: JwtService) : HandlerInterce
             return false
         }
         try {
-            val userId = jwtService.validateJWTToken(jwtToken)
-            response.setHeader("Authorization", jwtService.generateToken(userId))
+            response.setHeader("Authorization", jwtService.refreshToken(jwtToken))
             return true
         } catch (error: JWTVerificationException) {
             response.status = HttpStatus.UNAUTHORIZED.value()
